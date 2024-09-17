@@ -1,5 +1,13 @@
+import MyFlights from "./Pages/MyFlights";
+import Home from "./Pages/Home";
+
 function App() {
-  return <div className="text-blue-500">app</div>;
+  return (
+    <div>
+      <Home></Home>
+      <MyFlights></MyFlights>
+    </div>
+  );
 }
 
 export default App;
