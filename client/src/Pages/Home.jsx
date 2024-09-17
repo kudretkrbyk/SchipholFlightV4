@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="w-full h-screen bg-purple-200 p-24 flex items-center justify-center">
-      <div className="w-full h-full bg-gray-200 rounded-2xl p-8 flex flex-col gap-5 items-start justify-start">
+      <div className="w-full h-full bg-gray-200 rounded-2xl p-5 flex flex-col gap-5 items-start justify-start">
         <div className="w-full flex items-center justify-between">
           <div>plane scape</div>
           <div className="flex items-center justify-center gap-5">
@@ -39,31 +39,18 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div>
-          <div>Book Your Flight</div>
-          <div>
+        <div className="w-full h-full flex items-start justify-center gap-5">
+          <div className="w-9/12 flex flex-col gap-5">
+            <div className="w-full bg-white">Book Your Flight</div>
+            <div className="w-full  flex items-center justify-center gap-5">
+              <div className="bg-white w-9/12"> Içuşlar tekrar edecek div</div>
+              <div className="w-3/12">Sort By</div>
+            </div>
+          </div>
+          <div className="w-3/12 bg-blue-500">
             Car Rental
             <img className="w-24" src={carRental} alt="Car Rental" />
           </div>
-        </div>
-
-        {/* Uçuş verilerini görüntüle */}
-        <div className="mt-5">
-          {flights.length > 0 ? (
-            flights.map((flight) => (
-              <div key={flight.id} className="border-b py-2">
-                <p>Uçuş Numarası: {flight.flightName}</p>
-                <p>Havayolu: {flight.prefixIATA}</p>
-                <p>
-                  Kalkış Zamanı:{" "}
-                  {new Date(flight.scheduleDateTime).toLocaleString()}
-                </p>
-                {/* Diğer uçuş bilgilerini buraya ekleyin */}
-              </div>
-            ))
-          ) : (
-            <p>Uçuş verileri yükleniyor...</p>
-          )}
         </div>
       </div>
     </div>
