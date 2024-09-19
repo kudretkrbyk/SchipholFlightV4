@@ -2,14 +2,19 @@ import { useState } from "react";
 import useFlights from "../../hooks/useFlights"; // useFlights hook'unu buradan çekiyoruz
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 export default function Flights() {
   const { flights, loading, error } = useFlights(); // Hook'tan verileri alıyoruz
-  const [selectedIndex, setSelectedIndex] = useState(null); // Seçilen span'ın index'i
+  const [selectedIndexTime, setSelectedIndexTime] = useState(null); // Seçilen span'ın index'i
+  const [selectedIndexAirline, setSelectedIndexAirline] = useState(null); // Seçilen span'ın index'i
+  const [sortByDropDownIsOpen, setSortByDropDownIsOpen] = useState(false);
+  const [selectedSortOption, setSelectedSortOption] = useState("Lowest Price");
+
   const uniqueAirlines = Array.from(
     new Set(flights.map((flight) => flight.airlineName))
   );
-  console.log(uniqueAirlines);
+
   if (loading) {
     return <div>Veriler yükleniyor...</div>;
   }
@@ -18,14 +23,33 @@ export default function Flights() {
     return <div>Bir hata oluştu: {error.message}</div>;
   }
 
-  const handleClick = (index) => {
-    setSelectedIndex(index); // Seçilen span'ın index'ini güncelle
+  const handleClickTime = (index) => {
+    setSelectedIndexTime(index); // Seçilen span'ın index'ini güncelle
   };
+
+  const handleClickAirline = (index) => {
+    setSelectedIndexAirline(index); // Seçilen span'ın index'ini güncelle
+  };
+
+  const handleSortByDropDownIsOpen = () =>
+    setSortByDropDownIsOpen(!sortByDropDownIsOpen);
+
+  const handleSortOptionSelect = (option) => {
+    setSelectedSortOption(option);
+    setSortByDropDownIsOpen(false);
+  };
+
+  const sortOptions = [
+    "Lowest Price",
+    "Highest Price",
+    "Earliest Departure",
+    "Latest Departure",
+  ];
 
   const spans = ["5:00 AM - 11:59 AM", "12:00 PM - 5:59 PM"]; // Örnek span metinleri
 
   return (
-    <div className="w-full h-[490px] flex items-start justify-center gap-5">
+    <div className="w-full h-[500px] flex items-start justify-center gap-5">
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
         {flights.map((e, index) => (
           <div key={index} className="w-full">
@@ -48,7 +72,12 @@ export default function Flights() {
                       hour12: true, // AM/PM formatı için
                     })}
                   </span>
-                  <span>Airport: {e.route.destinations[0]}</span>
+                  <span>
+                    Airport:{""}
+                    {e.flightDirection === "D"
+                      ? `AMS`
+                      : `${e.route.destinations[0]}`}{" "}
+                  </span>
                 </div>
 
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
@@ -56,6 +85,7 @@ export default function Flights() {
                   <span>{e.airlineName} </span>
                   <IoAirplane className="text-purple-700 size-6" />
                   <span>2h 25m (nonstop)</span>
+                  {/* <span>Flight Number :{e.flightNumber} </span>*/}
                 </div>
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
                 <div className="flex flex-col gap-2">
@@ -67,14 +97,19 @@ export default function Flights() {
                       hour12: true, // AM/PM formatı için
                     })}
                   </span>
-                  <span>Airport: {e.route.destinations[0]}</span>{" "}
+                  <span>
+                    Airport: {""}
+                    {e.flightDirection === "D"
+                      ? `${e.route.destinations[0]}`
+                      : `AMS`}{" "}
+                  </span>
                   {/* Varış havalimanı için IATA kodu */}
                 </div>
               </div>
               <div className="flex items-end justify-between">
                 <div className="flex flex-col p-3">
                   <span className="font-bold text-purple-700">Price: $234</span>
-                  <span>Round Trip</span>
+                  <span>Flight Name : {e.flightName}</span>
                 </div>
                 <div>
                   <button className="bg-purple-700 text-white p-3 px-4 rounded-tl-lg rounded-br-lg">
@@ -94,12 +129,29 @@ export default function Flights() {
 
       <div className="w-3/12 flex flex-col gap-2">
         <p className="font-bold">Sort by:</p>
-        <select className="w-full" id="sort">
-          <option value="volvo">Lowest Price</option>
-          <option value="saab">Saab</option>
-          <option value="opel">Opel</option>
-          <option value="audi">Audi</option>
-        </select>
+        <div className="relative">
+          <div
+            className="bg-white w-full h-7 flex items-center justify-between cursor-pointer rounded-md p-2"
+            onClick={handleSortByDropDownIsOpen}
+          >
+            <span className="">{selectedSortOption}</span>
+            <MdKeyboardArrowDown className="size-6 text-purple-700" />
+          </div>
+          {sortByDropDownIsOpen && (
+            <div className="absolute bg-white border border-gray-300 mt-1 w-full z-10">
+              {sortOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleSortOptionSelect(option)}
+                >
+                  {option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <p className="font-bold">Arrival Time</p>
 
         {spans.map((span, index) => (
@@ -108,20 +160,29 @@ export default function Flights() {
             className="w-full flex items-center justify-start gap-2"
           >
             <span
-              onClick={() => handleClick(index)}
+              onClick={() => handleClickTime(index)}
               className={`w-3 h-3 border rounded-full cursor-pointer ${
-                selectedIndex === index ? "bg-purple-700" : "border-purple-700"
+                selectedIndexTime === index
+                  ? "bg-purple-700"
+                  : "border-purple-700"
               }`}
             ></span>
             <span>{span}</span>
           </div>
         ))}
+
         <span className="font-bold">Stops</span>
         <span className="font-bold">Airlines Included</span>
         {uniqueAirlines.map((airlineName, index) => (
           <div key={index} className="flex items-center gap-2">
-            {" "}
-            <span className="border border-purple-700 w-3 h-3 rounded-full"></span>
+            <span
+              onClick={() => handleClickAirline(index)}
+              className={`w-3 h-3 border rounded-full cursor-pointer ${
+                selectedIndexAirline === index
+                  ? "bg-purple-700"
+                  : "border-purple-700"
+              }`}
+            ></span>
             <span>{airlineName}</span>
           </div>
         ))}
