@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const router = express.Router();
 
-router.get("/flights", async (req, res) => {
+router.get("/", async (req, res) => {
   const url =
     "https://api.schiphol.nl/public-flights/flights?includedelays=false&page=0&sort=%2BscheduleTime";
 
