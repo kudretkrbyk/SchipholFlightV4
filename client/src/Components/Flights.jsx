@@ -1,18 +1,23 @@
 import { useState } from "react";
-import useFlights from "../../hooks/useFlights"; // useFlights hook'unu buradan çekiyoruz
+import usefilterFlights from "../../Hooks/usefilterFlights";
+
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export default function Flights() {
-  const { flights, loading, error } = useFlights(); // Hook'tan verileri alıyoruz
+export default function Flights({
+  setAirlineFilter,
+  filteredFlights,
+  loading,
+  error,
+}) {
   const [selectedIndexTime, setSelectedIndexTime] = useState(null); // Seçilen span'ın index'i
   const [selectedIndexAirline, setSelectedIndexAirline] = useState(null); // Seçilen span'ın index'i
   const [sortByDropDownIsOpen, setSortByDropDownIsOpen] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState("Lowest Price");
 
   const uniqueAirlines = Array.from(
-    new Set(flights.map((flight) => flight.airlineName))
+    new Set(filteredFlights.map((flight) => flight.airlineName))
   );
 
   if (loading) {
@@ -27,8 +32,9 @@ export default function Flights() {
     setSelectedIndexTime(index); // Seçilen span'ın index'ini güncelle
   };
 
-  const handleClickAirline = (index) => {
+  const handleClickAirline = (index, airlineName) => {
     setSelectedIndexAirline(index); // Seçilen span'ın index'ini güncelle
+    setAirlineFilter(airlineName);
   };
 
   const handleSortByDropDownIsOpen = () =>
@@ -51,7 +57,7 @@ export default function Flights() {
   return (
     <div className="w-full h-[500px] flex items-start justify-center gap-5">
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
-        {flights.map((e, index) => (
+        {filteredFlights.map((e, index) => (
           <div key={index} className="w-full">
             <div className="bg-white w-full flex flex-col">
               <div className="p-3">
@@ -83,7 +89,7 @@ export default function Flights() {
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
                 <div className="flex flex-col gap-2 items-center">
                   <span>{e.airlineName} </span>
-                  <IoAirplane className="text-purple-700 size-6" />
+                  <IoAirplane className="text-purple-700 size-6 animate-fly" />
                   <span>2h 25m (nonstop)</span>
                   {/* <span>Flight Number :{e.flightNumber} </span>*/}
                 </div>
@@ -176,7 +182,7 @@ export default function Flights() {
         {uniqueAirlines.map((airlineName, index) => (
           <div key={index} className="flex items-center gap-2">
             <span
-              onClick={() => handleClickAirline(index)}
+              onClick={() => handleClickAirline(index, airlineName)}
               className={`w-3 h-3 border rounded-full cursor-pointer ${
                 selectedIndexAirline === index
                   ? "bg-purple-700"
