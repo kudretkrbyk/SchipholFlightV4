@@ -5,14 +5,71 @@ const Flight = require("../../models/Flight");
 // Uçuş eklemek için POST route
 router.post("/", async (req, res) => {
   try {
-    const { flightNumber, departure, arrival, date, airline } = req.body;
+    const {
+      id,
+      actualLandingTime,
+      aircraftType,
+      airlineCode,
+      airlineName,
+      baggageClaim,
+      cityName,
+      estimatedLandingTime,
+      expectedTimeOnBelt,
+      flightDirection,
+      flightName,
+      flightNumber,
+      isOperationalFlight,
+      lastUpdatedAt,
+      mainFlight,
+      prefixIATA,
+      prefixICAO,
+      publicFlightState,
+      route,
+      eu,
+      visa,
+      scheduleDate,
+      scheduleDateTime,
+      scheduleTime,
+      schemaVersion,
+      serviceType,
+      terminal,
+    } = req.body;
+
+    // Aynı id ile kayıtlı bir uçuş var mı diye kontrol ediyoruz
+    const existingFlight = await Flight.findOne({ id });
+
+    if (existingFlight) {
+      return res.status(400).json({ message: "Bu uçuş zaten kayıtlı." });
+    }
 
     const newFlight = new Flight({
+      id,
+      actualLandingTime,
+      aircraftType,
+      airlineCode,
+      airlineName,
+      baggageClaim,
+      cityName,
+      estimatedLandingTime,
+      expectedTimeOnBelt,
+      flightDirection,
+      flightName,
       flightNumber,
-      departure,
-      arrival,
-      date,
-      airline,
+      isOperationalFlight,
+      lastUpdatedAt,
+      mainFlight,
+      prefixIATA,
+      prefixICAO,
+      publicFlightState,
+      route,
+      eu,
+      visa,
+      scheduleDate,
+      scheduleDateTime,
+      scheduleTime,
+      schemaVersion,
+      serviceType,
+      terminal,
     });
 
     await newFlight.save();
@@ -23,5 +80,4 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: "Veri eklenirken hata oluştu", error });
   }
 });
-
 module.exports = router;

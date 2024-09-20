@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import usePostFlight from "../../Hooks/usePostFlight";
 
 export default function Flights({
   setAirlineFilter,
@@ -10,11 +11,14 @@ export default function Flights({
   loading,
   error,
 }) {
+  const { handlePostFlight, success, error: postError } = usePostFlight();
   const [selectedIndexTime, setSelectedIndexTime] = useState(null); // Seçilen span'ın index'i
   const [selectedIndexAirline, setSelectedIndexAirline] = useState(null); // Seçilen span'ın index'i
   const [sortByDropDownIsOpen, setSortByDropDownIsOpen] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState("Lowest Price");
-
+  const handleBookFlight = (flight) => {
+    handlePostFlight(flight); // Uçuşu veritabanına ekle
+  };
   const uniqueAirlines = Array.from(
     new Set(filteredFlights.map((flight) => flight.airlineName))
   );
@@ -25,6 +29,9 @@ export default function Flights({
 
   if (error) {
     return <div>Bir hata oluştu: {error.message}</div>;
+  }
+  if (postError) {
+    return <div>Uçuş eklenirken bir hata oluştu: {postError.message}</div>;
   }
 
   const handleClickTime = (index) => {
@@ -54,7 +61,7 @@ export default function Flights({
   const spans = ["5:00 AM - 11:59 AM", "12:00 PM - 5:59 PM"]; // Örnek span metinleri
 
   return (
-    <div className="w-full h-[500px] flex items-start justify-center gap-5">
+    <div className="w-full h-[500px] flex items-start justify-center gap-5 ">
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
         {filteredFlights.map((e, index) => (
           <div key={index} className="w-full">
@@ -116,10 +123,24 @@ export default function Flights({
                   <span className="font-bold text-purple-700">Price: $234</span>
                   <span>Flight Name : {e.flightName}</span>
                 </div>
-                <div>
-                  <button className="bg-purple-700 text-white p-3 px-4 rounded-tl-lg rounded-br-lg">
+                <div className="relative ">
+                  <button
+                    className="bg-purple-700 text-white p-3 px-4 rounded-tl-lg rounded-br-lg"
+                    onClick={() => handleBookFlight(e)}
+                  >
                     Book Flight
                   </button>
+                  {success && (
+                    <div
+                      className="absolute top-0 right-0  bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded "
+                      role="alert"
+                    >
+                      <strong className="font-bold">Başarılı!</strong>
+                      <span className="block sm:inline">
+                        Uçuş başarıyla eklendi!
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
