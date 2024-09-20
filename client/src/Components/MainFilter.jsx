@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoAirplane } from "react-icons/io5";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoMdCalendar } from "react-icons/io";
@@ -6,8 +6,7 @@ import { IoMdCalendar } from "react-icons/io";
 export default function MainFilter({
   setArrivalFilter,
   setDepartureFilter,
-  departureFilter,
-  arrivalFilter,
+
   filteredFlights, // Şehir önerileri için prop
 }) {
   const [showDepartureSuggestions, setShowDepartureSuggestions] =
