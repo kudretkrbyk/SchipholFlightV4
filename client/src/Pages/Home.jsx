@@ -3,12 +3,14 @@ import Advert from "../Components/Advert";
 import Flights from "../Components/Flights";
 import MainFilter from "../Components/MainFilter";
 import usefilterFlights from "../../Hooks/usefilterFlights";
+import useFlights from "../../Hooks/useFlights";
 import { useState } from "react";
 
 export default function Home() {
   const [departureFilter, setDepartureFilter] = useState("");
   const [arrivalFilter, setArrivalFilter] = useState("");
   const [airlineFilter, setAirlineFilter] = useState("");
+  const { flights } = useFlights();
   const { filteredFlights, loading, error } = usefilterFlights(
     airlineFilter,
     departureFilter,
@@ -28,6 +30,7 @@ export default function Home() {
               departureFilter={departureFilter}
               arrivalFilter={arrivalFilter}
               filteredFlights={filteredFlights}
+              flights={flights}
             ></MainFilter>
             {/*ANASAYFA UÇUŞLAR VE FİLTRELEME */}
             <Flights

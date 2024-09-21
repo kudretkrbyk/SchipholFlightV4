@@ -6,8 +6,8 @@ import { IoMdCalendar } from "react-icons/io";
 export default function MainFilter({
   setArrivalFilter,
   setDepartureFilter,
-
-  filteredFlights, // Şehir önerileri için prop
+  filteredFlights,
+  flights,
 }) {
   const [showDepartureSuggestions, setShowDepartureSuggestions] =
     useState(false);
@@ -19,24 +19,30 @@ export default function MainFilter({
   const [selectedArrival, setSelectedArrival] = useState("");
 
   // Schiphol dahil öneri listesi
-  const airports = [
-    ...new Set(filteredFlights.map((flight) => flight.cityName)),
-  ];
+  const airports = [...new Set(flights.map((flight) => flight.cityName))];
   airports.push("Schiphol"); // Schiphol'ü ekliyoruz
 
   const handleDepartureChange = (e) => {
     const value = e.target.value;
     setSelectedDeparture(value);
 
-    // Kalkış önerilerini güncelle
-    if (value.length >= 2) {
-      const suggestions = airports.filter((airport) =>
-        airport.toLowerCase().includes(value.toLowerCase())
-      );
-      setDepartureSuggestions(suggestions);
-      setShowDepartureSuggestions(true);
+    // Eğer Schiphol yazıldıysa, varış kısmını boş bırak
+    if (value.toLowerCase() === "schiphol") {
+      setSelectedArrival("");
     } else {
-      setShowDepartureSuggestions(false);
+      // Kalkış önerilerini güncelle
+      if (value.length >= 2) {
+        const suggestions = airports.filter((airport) =>
+          airport.toLowerCase().includes(value.toLowerCase())
+        );
+        setDepartureSuggestions(suggestions);
+        setShowDepartureSuggestions(true);
+
+        // Kalkış Schiphol değilse varış kısmını otomatik Schiphol yap
+        setSelectedArrival("Schiphol");
+      } else {
+        setShowDepartureSuggestions(false);
+      }
     }
   };
 
@@ -44,15 +50,23 @@ export default function MainFilter({
     const value = e.target.value;
     setSelectedArrival(value);
 
-    // Varış önerilerini güncelle
-    if (value.length >= 2) {
-      const suggestions = airports.filter((airport) =>
-        airport.toLowerCase().includes(value.toLowerCase())
-      );
-      setArrivalSuggestions(suggestions);
-      setShowArrivalSuggestions(true);
+    // Eğer Schiphol yazıldıysa, kalkış kısmını boş bırak
+    if (value.toLowerCase() === "schiphol") {
+      setSelectedDeparture("");
     } else {
-      setShowArrivalSuggestions(false);
+      // Varış önerilerini güncelle
+      if (value.length >= 2) {
+        const suggestions = airports.filter((airport) =>
+          airport.toLowerCase().includes(value.toLowerCase())
+        );
+        setArrivalSuggestions(suggestions);
+        setShowArrivalSuggestions(true);
+
+        // Varış Schiphol değilse kalkış kısmını otomatik Schiphol yap
+        setSelectedDeparture("Schiphol");
+      } else {
+        setShowArrivalSuggestions(false);
+      }
     }
   };
 
@@ -60,14 +74,27 @@ export default function MainFilter({
     if (isDeparture) {
       setSelectedDeparture(cityName);
       setShowDepartureSuggestions(false);
+
+      // Kalkış Schiphol değilse varış Schiphol olsun
+      if (cityName.toLowerCase() !== "schiphol") {
+        setSelectedArrival("Schiphol");
+      } else {
+        setSelectedArrival("");
+      }
     } else {
       setSelectedArrival(cityName);
       setShowArrivalSuggestions(false);
+
+      // Varış Schiphol değilse kalkış Schiphol olsun
+      if (cityName.toLowerCase() !== "schiphol") {
+        setSelectedDeparture("Schiphol");
+      } else {
+        setSelectedDeparture("");
+      }
     }
   };
 
   const handleShowFlights = () => {
-    // Butona tıklandığında filtreler set ediliyor
     setDepartureFilter(selectedDeparture);
     setArrivalFilter(selectedArrival);
     console.log("Kalkış Limanı:", selectedDeparture);
