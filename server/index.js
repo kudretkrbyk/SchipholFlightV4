@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const flightsRouter = require("./API/Get/flights"); // Get rotası
 const postFlightsRouter = require("./API/Post/flights"); // Post rotası
+const flightRoutes = require("./API/Get/flightRoutes"); // Flight routes'u ekleyin
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/flights", flightsRouter); // Get rotası
+app.use("/api/flightsDb", flightRoutes); // Uçuş routes'u burada kullanılıyor
 app.use("/api/flights", postFlightsRouter); // Post rotası
 
 app.listen(PORT, () => {
