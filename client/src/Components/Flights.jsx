@@ -13,6 +13,25 @@ export default function Flights({
 }) {
   const { handlePostFlight, success, error: postError } = usePostFlight();
 
+  // Uçuş süresini hesaplayan fonksiyon
+  const calculateFlightDuration = (departureTime, arrivalTime) => {
+    const departure = new Date(departureTime);
+    const arrival = new Date(arrivalTime);
+    const durationInMs = arrival - departure;
+    const hours = Math.floor(durationInMs / (1000 * 60 * 60));
+    const minutes = Math.floor((durationInMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${hours}h ${minutes}m`;
+  };
+
+  // Durak sayısını hesaplayan fonksiyon
+  const calculateStops = (destinations) => {
+    const stopCount = destinations.length - 1; // 1 yer varsa nonstop, 2 yer varsa 1 stop...
+    if (stopCount === 0) return "nonstop";
+    if (stopCount === 1) return "1 stop";
+    return `${stopCount} stops`;
+  };
+
   const handleBookFlight = (flight) => {
     handlePostFlight(flight); // Uçuşu veritabanına ekle
   };
@@ -33,7 +52,7 @@ export default function Flights({
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
         {filteredFlights.map((e, index) => (
           <div key={index} className="w-full">
-            <span> ssss{e.route.destinations.length}</span>
+            <span>Destinations: {e.route.destinations.length}</span>
             <div className="bg-white w-full flex flex-col">
               <div className="p-3">
                 {/* Şehir adları uçuş yönüne göre ayarlanıyor */}
@@ -54,7 +73,7 @@ export default function Flights({
                     })}
                   </span>
                   <span>
-                    Airport:{""}
+                    Airport:{" "}
                     {e.flightDirection === "D"
                       ? `AMS`
                       : `${e.route.destinations[0]}`}{" "}
@@ -62,13 +81,22 @@ export default function Flights({
                 </div>
 
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
+
                 <div className="flex flex-col gap-2 items-center">
                   <span>{e.airlineName} </span>
                   <IoAirplane className="text-purple-700 size-6 animate-fly" />
-                  <span>2h 25m (nonstop)</span>
-                  {/* <span>Flight Number :{e.flightNumber} </span>*/}
+                  {/* Uçuş süresi ve durak sayısı */}
+                  <span>
+                    {calculateFlightDuration(
+                      e.scheduleDateTime,
+                      e.actualLandingTime
+                    )}{" "}
+                    ({calculateStops(e.route.destinations)})
+                  </span>
                 </div>
+
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
+
                 <div className="flex flex-col gap-2">
                   <BiSolidPlaneLand />
                   <span className="font-bold">
@@ -84,7 +112,6 @@ export default function Flights({
                       ? `${e.route.destinations[0]}`
                       : `AMS`}{" "}
                   </span>
-                  {/* Varış havalimanı için IATA kodu */}
                 </div>
               </div>
               <div className="flex items-end justify-between">
