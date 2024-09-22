@@ -4,6 +4,7 @@ import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import usePostFlight from "../../Hooks/usePostFlight";
+import FlightsStop from "./FlightsStop";
 
 export default function Flights({
   setAirlineFilter,
@@ -65,6 +66,7 @@ export default function Flights({
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
         {filteredFlights.map((e, index) => (
           <div key={index} className="w-full">
+            <span> ssss{e.route.destinations.length}</span>
             <div className="bg-white w-full flex flex-col">
               <div className="p-3">
                 {/* Şehir adları uçuş yönüne göre ayarlanıyor */}
@@ -187,7 +189,7 @@ export default function Flights({
           >
             <span
               onClick={() => handleClickTime(index)}
-              className={`w-3 h-3 border rounded-full cursor-pointer ${
+              className={`w-3 h-3 border rounded-full cursor-pointer border-purple-700 ${
                 selectedIndexTime === index
                   ? "bg-purple-700"
                   : "border-purple-700"
@@ -197,13 +199,13 @@ export default function Flights({
           </div>
         ))}
 
-        <span className="font-bold">Stops</span>
+        <FlightsStop filteredFlights={filteredFlights}></FlightsStop>
         <span className="font-bold">Airlines Included</span>
         {uniqueAirlines.map((airlineName, index) => (
           <div key={index} className="flex items-center gap-2">
             <span
               onClick={() => handleClickAirline(index, airlineName)}
-              className={`w-3 h-3 border rounded-full cursor-pointer ${
+              className={`w-3 h-3 border rounded-full cursor-pointer border-purple-700 ${
                 selectedIndexAirline === index
                   ? "bg-purple-700"
                   : "border-purple-700"
