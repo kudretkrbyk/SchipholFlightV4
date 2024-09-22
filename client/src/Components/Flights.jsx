@@ -53,7 +53,7 @@ export default function Flights({
         {filteredFlights.map((e, index) => (
           <div key={index} className="w-full">
             <span>Destinations: {e.route.destinations.length}</span>
-            <div className="bg-white w-full flex flex-col">
+            <div className="bg-white w-full flex flex-col group">
               <div className="p-3">
                 {/* Şehir adları uçuş yönüne göre ayarlanıyor */}
                 <p className="font-bold">
@@ -82,9 +82,9 @@ export default function Flights({
 
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
 
-                <div className="flex flex-col gap-2 items-center">
+                <div className="flex flex-col gap-2 items-center  ">
                   <span>{e.airlineName} </span>
-                  <IoAirplane className="text-purple-700 size-6 animate-fly" />
+                  <IoAirplane className="text-purple-700 size-6 group-hover:animate-fly" />
                   {/* Uçuş süresi ve durak sayısı */}
                   <span>
                     {calculateFlightDuration(
