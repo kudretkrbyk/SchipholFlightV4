@@ -65,9 +65,10 @@ const useFilterFlights = (
     departureFilter,
     arrivalFilter,
     nonStopFilter,
-    flights,
     loading,
-  ]); // nonStopFilter'ı bağımlılık listesine ekledik
+    flights,
+    filteredFlights,
+  ]); //  bağımlılık listesi
 
   return { filteredFlights, loading, error }; // loading ve error'u da return ettik
 };

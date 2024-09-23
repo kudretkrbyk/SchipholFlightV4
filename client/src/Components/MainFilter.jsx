@@ -6,7 +6,7 @@ import { IoMdCalendar } from "react-icons/io";
 export default function MainFilter({
   setArrivalFilter,
   setDepartureFilter,
-  filteredFlights,
+
   flights,
   handleResetFilter,
 }) {
