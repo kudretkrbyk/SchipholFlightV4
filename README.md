@@ -1,5 +1,7 @@
 # SchipholFlightV4
 
+Uygulama vite ve tailwind şablonu kullanılarak kurulmuştur.
+
 Gereklilikler:
  
  "axios",    "date-fns",    "prop-types",    "react",    "react-dom",    "react-icons",    "react-router-dom"
