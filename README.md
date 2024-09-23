@@ -18,4 +18,4 @@ Gereklilikler:
  Aşağıdaki görselde de MongoDB veri tabanında kayıt edilen uçuşlar görünmektedir. 
  ![Demo GIF](https://github.com/kudretkrbyk/SchipholFlightV4/blob/main/client/src/assets/GIFS/output003.gif)
  ![image](https://github.com/kudretkrbyk/SchipholFlightV4/blob/main/client/src/assets/SSImages/anasayfa.PNG)
- ![image](https://github.com/kudretkrbyk/SchipholFlightV4/blob/main/client/src/assets/SSImages/u%C3%A7u%C5%9Flar.PNG)
+ ![image](https://github.com/kudretkrbyk/SchipholFlightV4/blob/main/client/src/assets/SSImages/ucuslar.PNG)
