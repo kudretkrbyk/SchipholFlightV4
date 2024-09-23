@@ -2,6 +2,7 @@ import { ImPriceTag } from "react-icons/im";
 import { FaEarthAmericas } from "react-icons/fa6";
 import { IoAirplane } from "react-icons/io5";
 import demimoore from "../assets/demi-moore.png";
+import { Link } from "react-router-dom";
 
 export default function HomePageHeader() {
   return (
@@ -25,14 +26,17 @@ export default function HomePageHeader() {
 
           <span>Discover</span>
         </div>
-        <div className="flex items-center gap-2">
-          <img
-            className="w-6 h-6 object-cover object-center  rounded-full"
-            src={demimoore}
-          ></img>
+        <Link to="/myFlights">
+          {" "}
+          <div className="flex items-center gap-2">
+            <img
+              className="w-6 h-6 object-cover object-center  rounded-full"
+              src={demimoore}
+            ></img>
 
-          <span>Profile</span>
-        </div>
+            <span>Profile</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

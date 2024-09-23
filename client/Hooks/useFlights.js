@@ -10,7 +10,7 @@ const useFlights = () => {
     const getFlights = async () => {
       try {
         const flightsData = await fetchFlights();
-        console.log("Uçuş Verileri:", flightsData);
+        // console.log("Uçuş Verileri:", flightsData);
         setFlights(flightsData);
       } catch (error) {
         console.error("Uçuş verileri alınamadı:", error);

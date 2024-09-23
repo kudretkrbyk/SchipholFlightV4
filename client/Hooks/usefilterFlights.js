@@ -14,7 +14,7 @@ const useFilterFlights = (
     if (!loading && flights.length > 0) {
       // Yükleme bitmişse ve uçuş verileri varsa filtreleme işlemi yapılır
       let updatedFlights = [...flights];
-      console.log("hook içi verileri", updatedFlights);
+      // console.log("hook içi verileri", updatedFlights);
 
       // Havayolu filtresi
       if (airlineFilter) {
@@ -26,8 +26,6 @@ const useFilterFlights = (
       // Schiphol kalkış noktası olarak filtreleme
       if (departureFilter === "Schiphol" && arrivalFilter) {
         updatedFlights = updatedFlights.filter((flight) => {
-          console.log("Schiphol kalkış noktası olarak filtreleme");
-
           return (
             flight.flightDirection === "D" && // Schiphol'den çıkış yapacak
             flight.cityName === arrivalFilter // Varış şehir adı ile eşleşen
@@ -37,10 +35,7 @@ const useFilterFlights = (
 
       // Schiphol varış noktası olarak filtreleme
       if (arrivalFilter === "Schiphol" && departureFilter) {
-        console.log("Schiphol iniş noktası olarak filtreleme");
-        console.log(departureFilter);
         updatedFlights = updatedFlights.filter((flight) => {
-          console.log(flight.cityName);
           return (
             flight.flightDirection === "A" && // Schiphol'e varış yapacak
             flight.cityName === departureFilter // Kalkış şehir adı ile eşleşen
@@ -58,17 +53,9 @@ const useFilterFlights = (
       }
 
       setFilteredFlights(updatedFlights); // Filtrelenmiş uçuşları güncelle
-      console.log("filtrelenmiş uçuşlar:", filteredFlights);
+      // console.log("filtrelenmiş uçuşlar:", filteredFlights);
     }
-  }, [
-    airlineFilter,
-    departureFilter,
-    arrivalFilter,
-    nonStopFilter,
-    loading,
-    flights,
-    filteredFlights,
-  ]); //  bağımlılık listesi
+  }, [airlineFilter, departureFilter, arrivalFilter, nonStopFilter, loading]); // nonStopFilter'ı bağımlılık listesine ekledik
 
   return { filteredFlights, loading, error }; // loading ve error'u da return ettik
 };
