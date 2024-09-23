@@ -2,31 +2,33 @@ import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 
 import usePostFlight from "../../Hooks/usePostFlight";
-
 import SortBy from "./SortBy";
 
 export default function Flights({
   setAirlineFilter,
   filteredFlights,
+  setNonStopFilter,
   loading,
   error,
 }) {
-  const { handlePostFlight, success, error: postError } = usePostFlight();
+  const {
+    handlePostFlight,
+    success,
+    error: postError,
+    warning,
+  } = usePostFlight();
 
-  // Uçuş süresini hesaplayan fonksiyon
   const calculateFlightDuration = (departureTime, arrivalTime) => {
     const departure = new Date(departureTime);
     const arrival = new Date(arrivalTime);
     const durationInMs = arrival - departure;
     const hours = Math.floor(durationInMs / (1000 * 60 * 60));
     const minutes = Math.floor((durationInMs % (1000 * 60 * 60)) / (1000 * 60));
-
     return `${hours}h ${minutes}m`;
   };
 
-  // Durak sayısını hesaplayan fonksiyon
   const calculateStops = (destinations) => {
-    const stopCount = destinations.length - 1; // 1 yer varsa nonstop, 2 yer varsa 1 stop...
+    const stopCount = destinations.length - 1;
     if (stopCount === 0) return "nonstop";
     if (stopCount === 1) return "1 stop";
     return `${stopCount} stops`;
@@ -43,19 +45,35 @@ export default function Flights({
   if (error) {
     return <div>Bir hata oluştu: {error.message}</div>;
   }
-  if (postError) {
-    return <div>Uçuş eklenirken bir hata oluştu: {postError.message}</div>;
-  }
 
   return (
-    <div className="w-full h-[500px] flex items-start justify-center gap-5 ">
+    <div className="w-full h-[470px] flex items-start justify-center gap-5">
+      {/* Uyarı Mesajları */}
+      {postError && (
+        <div className="animate-toast bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded fixed top-5 right-5">
+          <strong className="font-bold">Hata!</strong>
+          <span className="block sm:inline"> {postError.message}</span>
+        </div>
+      )}
+      {warning && (
+        <div className="animate-toast bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded fixed top-5 right-5">
+          <strong className="font-bold">Uyarı!</strong>
+          <span className="block sm:inline"> {warning}</span>
+        </div>
+      )}
+      {success && (
+        <div className="animate-toast bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded fixed top-5 right-5">
+          <strong className="font-bold">Başarılı!</strong>
+          <span className="block sm:inline"> Uçuş başarıyla eklendi!</span>
+        </div>
+      )}
+
+      {/* Uçuş Listesi */}
       <div className="w-9/12 h-full flex flex-col gap-2 overflow-y-scroll">
         {filteredFlights.map((e, index) => (
-          <div key={index} className="w-full">
-            <span>Destinations: {e.route.destinations.length}</span>
-            <div className="bg-white w-full flex flex-col group">
-              <div className="p-3">
-                {/* Şehir adları uçuş yönüne göre ayarlanıyor */}
+          <div key={index} className="w-full h-54">
+            <div className="bg-white w-full flex flex-col group rounded-lg shadow-xl">
+              <div className="px-3 py-2">
                 <p className="font-bold">
                   {e.flightDirection === "D"
                     ? `Schiphol - ${e.cityName}`
@@ -69,7 +87,7 @@ export default function Flights({
                     {new Date(e.scheduleDateTime).toLocaleTimeString("en-US", {
                       hour: "2-digit",
                       minute: "2-digit",
-                      hour12: true, // AM/PM formatı için
+                      hour12: true,
                     })}
                   </span>
                   <span>
@@ -82,10 +100,9 @@ export default function Flights({
 
                 <div className="bg-gray-300 w-24 h-[2px]"></div>
 
-                <div className="flex flex-col gap-2 items-center  ">
+                <div className="flex flex-col gap-2 items-center">
                   <span>{e.airlineName} </span>
                   <IoAirplane className="text-purple-700 size-6 group-hover:animate-fly" />
-                  {/* Uçuş süresi ve durak sayısı */}
                   <span>
                     {calculateFlightDuration(
                       e.scheduleDateTime,
@@ -103,7 +120,7 @@ export default function Flights({
                     {new Date(e.actualLandingTime).toLocaleTimeString("en-US", {
                       hour: "2-digit",
                       minute: "2-digit",
-                      hour12: true, // AM/PM formatı için
+                      hour12: true,
                     })}
                   </span>
                   <span>
@@ -115,7 +132,7 @@ export default function Flights({
                 </div>
               </div>
               <div className="flex items-end justify-between">
-                <div className="flex flex-col p-3">
+                <div className="flex flex-col px-3 py-2">
                   <span className="font-bold text-purple-700">Price: $234</span>
                   <span>Flight Name : {e.flightName}</span>
                 </div>
@@ -126,17 +143,6 @@ export default function Flights({
                   >
                     Book Flight
                   </button>
-                  {success && (
-                    <div
-                      className="absolute top-0 right-0  bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded "
-                      role="alert"
-                    >
-                      <strong className="font-bold">Başarılı!</strong>
-                      <span className="block sm:inline">
-                        Uçuş başarıyla eklendi!
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -148,9 +154,11 @@ export default function Flights({
           </div>
         ))}
       </div>
+
       <SortBy
         filteredFlights={filteredFlights}
         setAirlineFilter={setAirlineFilter}
+        setNonStopFilter={setNonStopFilter}
       ></SortBy>
     </div>
   );

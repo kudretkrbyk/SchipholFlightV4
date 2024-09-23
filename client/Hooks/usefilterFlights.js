@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import useFlights from "./useFlights"; // Uçuş verilerini almak için mevcut hook'u kullanıyoruz.
 
-const useFilterFlights = (airlineFilter, departureFilter, arrivalFilter) => {
+const useFilterFlights = (
+  airlineFilter,
+  departureFilter,
+  arrivalFilter,
+  nonStopFilter
+) => {
   const { flights, loading, error } = useFlights(); // flights, loading ve error'u destructure ediyoruz
   const [filteredFlights, setFilteredFlights] = useState([]);
 
@@ -43,10 +48,26 @@ const useFilterFlights = (airlineFilter, departureFilter, arrivalFilter) => {
         });
       }
 
+      // NonStop filtresi
+      if (nonStopFilter) {
+        updatedFlights = updatedFlights.filter((flight) => {
+          // flight.route.destinations'in uzunluğunu kontrol et
+          const destinationLength = flight.route?.destinations?.length || 0;
+          return destinationLength === nonStopFilter + 1; // 0 gönderilirse 1, 1 gönderilirse 2...
+        });
+      }
+
       setFilteredFlights(updatedFlights); // Filtrelenmiş uçuşları güncelle
       console.log("filtrelenmiş uçuşlar:", filteredFlights);
     }
-  }, [airlineFilter, departureFilter, arrivalFilter, flights, loading]); // flights ve loading'i de ekledik
+  }, [
+    airlineFilter,
+    departureFilter,
+    arrivalFilter,
+    nonStopFilter,
+    flights,
+    loading,
+  ]); // nonStopFilter'ı bağımlılık listesine ekledik
 
   return { filteredFlights, loading, error }; // loading ve error'u da return ettik
 };

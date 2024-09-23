@@ -2,7 +2,11 @@ import { useState } from "react";
 import FlightsStop from "./FlightsStop";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
-export default function SortBy({ filteredFlights, setAirlineFilter }) {
+export default function SortBy({
+  filteredFlights,
+  setAirlineFilter,
+  setNonStopFilter,
+}) {
   const [selectedIndexTime, setSelectedIndexTime] = useState(null); // Seçilen span'ın index'i
   const [selectedIndexAirline, setSelectedIndexAirline] = useState(null); // Seçilen span'ın index'i
   const [sortByDropDownIsOpen, setSortByDropDownIsOpen] = useState(false);
@@ -80,7 +84,10 @@ export default function SortBy({ filteredFlights, setAirlineFilter }) {
         </div>
       ))}
 
-      <FlightsStop filteredFlights={filteredFlights}></FlightsStop>
+      <FlightsStop
+        filteredFlights={filteredFlights}
+        setNonStopFilter={setNonStopFilter}
+      ></FlightsStop>
       <span className="font-bold">Airlines Included</span>
       {uniqueAirlines.map((airlineName, index) => (
         <div key={index} className="flex items-center gap-2">

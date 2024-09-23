@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function FlightsStop({ filteredFlights }) {
+export default function FlightsStop({ filteredFlights, setNonStopFilter }) {
   const [counter, setCounter] = useState(0);
   const [selectedIndexStop, setSelectedIndexStop] = useState(null);
   const handleClickStops = (index) => {
     setSelectedIndexStop(index);
+  };
+  const handleNonStopFilter = (index) => {
+    setNonStopFilter(index);
   };
 
   // Destinations sayısına göre sayaç değerini hesaplayan fonksiyon
@@ -40,7 +43,11 @@ export default function FlightsStop({ filteredFlights }) {
       {/* Sayaç değerine göre stop isimlerini listele */}
       <div>
         {Array.from({ length: counter + 1 }).map((_, index) => (
-          <div key={index} className="flex items-center gap-2">
+          <div
+            key={index}
+            className="flex items-center gap-2"
+            onClick={() => handleNonStopFilter(index)}
+          >
             <span
               onClick={() => handleClickStops(index)}
               className={`w-3 h-3 border rounded-full cursor-pointer border-purple-700 ${

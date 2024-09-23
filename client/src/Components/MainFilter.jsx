@@ -8,6 +8,7 @@ export default function MainFilter({
   setDepartureFilter,
   filteredFlights,
   flights,
+  handleResetFilter,
 }) {
   const [showDepartureSuggestions, setShowDepartureSuggestions] =
     useState(false);
@@ -102,7 +103,7 @@ export default function MainFilter({
   };
 
   return (
-    <div className="w-full bg-white flex flex-col gap-10 p-3 rounded-xl">
+    <div className="w-full bg-white flex flex-col gap-3 p-3 rounded-xl">
       <div className="flex items-center justify-between">
         <div className="text-gray-500 flex items-center gap-2">
           <IoAirplane />
@@ -186,12 +187,18 @@ export default function MainFilter({
       </div>
 
       {/* Show Flights Butonu */}
-      <div>
+      <div className="flex gap-5">
         <button
           onClick={handleShowFlights}
           className="bg-purple-700 text-white p-2 px-4 rounded-lg"
         >
           Show flights
+        </button>
+        <button
+          className="bg-purple-700 text-white p-2 px-4 rounded-lg"
+          onClick={handleResetFilter}
+        >
+          Reset Filters
         </button>
       </div>
     </div>
