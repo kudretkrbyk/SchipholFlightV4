@@ -1,3 +1,6 @@
+{
+  /* Anasayfa */
+}
 import HomePageHeader from "../Components/HomePageHeader";
 import Advert from "../Components/Advert";
 import Flights from "../Components/Flights";

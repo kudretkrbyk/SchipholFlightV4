@@ -1,3 +1,7 @@
+{
+  /* Uçuş durak listesi hesaplama */
+}
+
 import { useEffect, useState } from "react";
 
 export default function FlightsStop({ filteredFlights, setNonStopFilter }) {

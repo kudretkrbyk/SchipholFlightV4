@@ -1,3 +1,4 @@
+//MongoDB Verilerini Al
 export const flightsApiDb = async () => {
   try {
     const response = await fetch("http://localhost:5000/api/flightsDb");

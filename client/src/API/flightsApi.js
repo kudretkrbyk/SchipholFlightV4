@@ -1,3 +1,4 @@
+//Tüm uçuş verilerini al
 export const fetchFlights = async () => {
   try {
     const response = await fetch("http://localhost:5000/api/flights");

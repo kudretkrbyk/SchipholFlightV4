@@ -1,3 +1,5 @@
+//MongoDB verileri gönder
+
 import axios from "axios";
 
 export const postFlight = async (flightData) => {

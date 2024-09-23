@@ -1,3 +1,6 @@
+{
+  /* Uçuş Listesi MongoDB */
+}
 import { useState, useEffect } from "react";
 import { flightsApiDb } from "../API/flightsApiDb"; // flightsApi.js'deki fonksiyon
 

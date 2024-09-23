@@ -1,3 +1,7 @@
+{
+  /* Uçuş Listesini al */
+}
+
 import { useState, useEffect } from "react";
 import { fetchFlights } from "../API/flightsApi"; // flightsApi.js'deki fonksiyon
 

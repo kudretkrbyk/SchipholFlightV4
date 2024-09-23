@@ -1,3 +1,4 @@
+//Uçuşların gösterildiği bileşen
 import PropTypes from "prop-types";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
@@ -75,6 +76,7 @@ export default function Flights({
           <div key={index} className="w-full h-54">
             <div className="bg-white w-full flex flex-col group rounded-lg shadow-xl">
               <div className="px-3 py-2">
+                {/* kalkış ve iniş şehri */}
                 <p className="font-bold">
                   {e.flightDirection === "D"
                     ? `Schiphol - ${e.cityName}`
@@ -84,6 +86,7 @@ export default function Flights({
               <div className="flex items-center justify-between w-full gap-10 px-3">
                 <div className="flex flex-col">
                   <BiSolidPlaneTakeOff />
+                  {/* Kalkış saati */}
                   <span className="font-bold">
                     {new Date(e.scheduleDateTime).toLocaleTimeString("en-US", {
                       hour: "2-digit",
@@ -91,6 +94,7 @@ export default function Flights({
                       hour12: true,
                     })}
                   </span>
+                  {/* Havalimanı  */}
                   <span>
                     Airport:{" "}
                     {e.flightDirection === "D"
@@ -104,6 +108,7 @@ export default function Flights({
                 <div className="flex flex-col gap-2 items-center">
                   <span>{e.airlineName} </span>
                   <IoAirplane className="text-purple-700 size-6 group-hover:animate-fly" />
+                  {/* Uçuş süresi ve durak sayısı */}
                   <span>
                     {calculateFlightDuration(
                       e.scheduleDateTime,
@@ -117,6 +122,7 @@ export default function Flights({
 
                 <div className="flex flex-col gap-2">
                   <BiSolidPlaneLand />
+                  {/* İniş saati */}
                   <span className="font-bold">
                     {new Date(e.actualLandingTime).toLocaleTimeString("en-US", {
                       hour: "2-digit",
@@ -124,6 +130,7 @@ export default function Flights({
                       hour12: true,
                     })}
                   </span>
+                  {/* Uçuş Yönü */}
                   <span>
                     Airport: {""}
                     {e.flightDirection === "D"
@@ -138,6 +145,7 @@ export default function Flights({
                   <span>Flight Name : {e.flightName}</span>
                 </div>
                 <div className="relative ">
+                  {/* Uçuş rezervasyon işlemi */}
                   <button
                     className="bg-purple-700 text-white p-3 px-4 rounded-tl-lg rounded-br-lg"
                     onClick={() => handleBookFlight(e)}
@@ -155,7 +163,7 @@ export default function Flights({
           </div>
         ))}
       </div>
-
+      {/* Uçuş sıralama bileşeni */}
       <SortBy
         filteredFlights={filteredFlights}
         setAirlineFilter={setAirlineFilter}

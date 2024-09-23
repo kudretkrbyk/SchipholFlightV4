@@ -1,3 +1,7 @@
+{
+  /* Home sayfası ana filteleme */
+}
+
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoAirplane } from "react-icons/io5";

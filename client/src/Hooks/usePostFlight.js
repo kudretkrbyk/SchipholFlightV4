@@ -1,3 +1,7 @@
+{
+  /* Uçuş Listesi MongoDB Post */
+}
+
 import { useState, useEffect } from "react";
 import { postFlight } from "../API/postFlight";
 

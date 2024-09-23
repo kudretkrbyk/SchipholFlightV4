@@ -1,3 +1,6 @@
+{
+  /* MyFlights bileşeninde görünen yıldızlar */
+}
 import { IoIosStar } from "react-icons/io";
 
 export default function MyFlightsStars() {

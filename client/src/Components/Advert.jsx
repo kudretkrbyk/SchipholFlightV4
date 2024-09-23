@@ -1,3 +1,5 @@
+//Reklam Kısmı
+
 import { FaUmbrellaBeach } from "react-icons/fa";
 import { FaHotel } from "react-icons/fa";
 import { FaCar } from "react-icons/fa";

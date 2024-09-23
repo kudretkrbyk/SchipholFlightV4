@@ -1,3 +1,6 @@
+{
+  /* Home Sayfası Header */
+}
 import { ImPriceTag } from "react-icons/im";
 import { FaEarthAmericas } from "react-icons/fa6";
 import { IoAirplane } from "react-icons/io5";
