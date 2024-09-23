@@ -1,6 +1,6 @@
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdInfoOutline } from "react-icons/md";
-import useFlightsDb from "../../Hooks/useFlightsDb";
+import useFlightsDb from "../Hooks/useFlightsDb";
 import MyFlightsStars from "../Components/MyFlightsStars";
 
 export default function MyFlights() {

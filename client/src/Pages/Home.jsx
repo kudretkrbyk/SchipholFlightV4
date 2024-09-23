@@ -2,8 +2,8 @@ import HomePageHeader from "../Components/HomePageHeader";
 import Advert from "../Components/Advert";
 import Flights from "../Components/Flights";
 import MainFilter from "../Components/MainFilter";
-import usefilterFlights from "../../Hooks/usefilterFlights";
-import useFlights from "../../Hooks/useFlights";
+import usefilterFlights from "../Hooks/usefilterFlights";
+import useFlights from "../Hooks/useFlights";
 import { useState } from "react";
 
 export default function Home() {

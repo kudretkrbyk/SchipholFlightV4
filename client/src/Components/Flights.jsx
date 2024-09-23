@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 
-import usePostFlight from "../../Hooks/usePostFlight";
+import usePostFlight from "../Hooks/usePostFlight";
 import SortBy from "./SortBy";
 
 export default function Flights({

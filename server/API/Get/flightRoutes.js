@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Flight = require("../../models/Flight");
 
-// Tüm uçuşları almak için GET route
+// MongoDB uçuşları  almak için GET route
 router.get("/", async (req, res) => {
   try {
     const flights = await Flight.find(); // Veritabanından tüm uçuşları getir

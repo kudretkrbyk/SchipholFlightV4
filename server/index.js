@@ -26,8 +26,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/flights", flightsRouter); // Get rotası
-app.use("/api/flightsDb", flightRoutes); // Uçuş routes'u burada kullanılıyor
-app.use("/api/flights", postFlightsRouter); // Post rotası
+app.use("/api/flightsDb", flightRoutes); // MongoDB Uçuşları al Get
+app.use("/api/flights", postFlightsRouter); //MongoDB uçuşları gönder Post rotası
 
 app.listen(PORT, () => {
   console.log(`Sunucu ${PORT} portunda çalışıyor.`);

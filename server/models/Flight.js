@@ -1,3 +1,5 @@
+//MongoDB Modeli Tüm verileri alıyoruz
+
 const mongoose = require("mongoose");
 
 const flightSchema = new mongoose.Schema({

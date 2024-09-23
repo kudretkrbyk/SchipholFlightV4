@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Flight = require("../../models/Flight");
 
-// Uçuş eklemek için POST route
+// MongoDB Uçuş eklemek için POST route
 router.post("/", async (req, res) => {
   try {
     const {
