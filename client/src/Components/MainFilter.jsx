@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { IoAirplane } from "react-icons/io5";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
@@ -204,3 +205,15 @@ export default function MainFilter({
     </div>
   );
 }
+// PropTypes tanımlamaları
+MainFilter.propTypes = {
+  setArrivalFilter: PropTypes.func.isRequired,
+  setDepartureFilter: PropTypes.func.isRequired,
+  flights: PropTypes.arrayOf(
+    PropTypes.shape({
+      cityName: PropTypes.string.isRequired,
+      // Diğer gerekli özellikleri burada tanımlayın (örneğin: flightDirection)
+    })
+  ).isRequired,
+  handleResetFilter: PropTypes.func.isRequired,
+};

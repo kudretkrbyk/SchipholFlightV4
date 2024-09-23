@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { BiSolidPlaneLand, BiSolidPlaneTakeOff } from "react-icons/bi";
 import { IoAirplane } from "react-icons/io5";
 
@@ -163,3 +164,23 @@ export default function Flights({
     </div>
   );
 }
+
+Flights.propTypes = {
+  setAirlineFilter: PropTypes.func.isRequired,
+  filteredFlights: PropTypes.arrayOf(
+    PropTypes.shape({
+      cityName: PropTypes.string.isRequired,
+      flightDirection: PropTypes.string.isRequired,
+      scheduleDateTime: PropTypes.string.isRequired,
+      actualLandingTime: PropTypes.string.isRequired,
+      airlineName: PropTypes.string.isRequired,
+      flightName: PropTypes.string.isRequired,
+      route: PropTypes.shape({
+        destinations: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+    })
+  ).isRequired,
+  setNonStopFilter: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.object, // Hata nesnesi, isteğe bağlı olarak daha fazla detay eklenebilir.
+};
